@@ -1,0 +1,160 @@
+/* ----- relevant styles ----- */
+.box {
+  /* here's where the cool part starts: 
+   * different styles for the yay/ nay boxes */
+  background: linear-gradient(90deg, var(--sl, #851d41, #db3056));
+  /* a value of 1 if it indicates feature is supported */
+  /* ----- THE MAGIC ----- */
+  /* support test for the color-mix() value */
+  /* support test for the mask-mode property */
+  /* support test for the :has() selector */
+}
+.box[data-test="1"] {
+  --sl: #045762, #4e8d7c;
+  display: none;
+}
+@supports (background: color-mix(in lch, red, tan)) {
+  .box[data-feat=value--color-mix] {
+    display: none;
+  }
+  .box[data-feat=value--color-mix][data-test="1"] {
+    display: block;
+  }
+}
+@supports (mask-mode: luminance) {
+  .box[data-feat=property--mask-mode] {
+    display: none;
+  }
+  .box[data-feat=property--mask-mode][data-test="1"] {
+    display: block;
+  }
+}
+@supports selector(:has(a)) {
+  .box[data-feat=selector--has] {
+    display: none;
+  }
+  .box[data-feat=selector--has][data-test="1"] {
+    display: block;
+  }
+}
+
+/* ----- all the prettifying, less important styles ----- */
+body {
+  box-sizing: border-box;
+  margin: 0 auto;
+  max-width: 47em;
+  padding: 0.5em;
+  background: #262434;
+  color: #fff;
+  font: 1.25em/1.3 ubuntu, trebuchet ms, sans-serif;
+}
+
+a {
+  --hl: 0;
+  position: relative;
+  z-index: 1;
+  padding: 0 4px;
+  color: #fc8621;
+  text-decoration: none;
+  isolation: isolate;
+}
+a::before {
+  position: absolute;
+  inset: 0;
+  transform-origin: 0 100%;
+  transform: scaley(calc(var(--hl) - .1*(1 - var(--hl))));
+  background: currentcolor;
+  mix-blend-mode: difference;
+  transition: transform 0.35s ease-out;
+  content: "";
+}
+a:focus {
+  outline: none;
+}
+a:hover, a:focus {
+  --hl: 1 ;
+}
+
+[data-ico] {
+  margin-right: 1.5em;
+}
+[data-ico]::after {
+  position: absolute;
+  left: calc(100% + 2px);
+  content: " " attr(data-ico);
+}
+
+pre, div {
+  position: relative;
+  margin: 2em 0 1em;
+  padding: 0.5em;
+  border-radius: 0.375em;
+  box-shadow: 0 2px 5px -2px #141414, 0 5px 13px -5px #040404;
+}
+
+pre, code {
+  font-family: ubuntu mono, consoas, monaco, monospace;
+  font-size: 1.125em;
+}
+
+pre {
+  background: rgba(32, 24, 47, 0.95);
+}
+pre::before {
+  position: absolute;
+  bottom: calc(100% - 4px);
+  padding: 0 4px;
+  border-radius: 4px;
+  background: inherit;
+  content: attr(data-lang);
+}
+
+code {
+  padding: 0 4px;
+  background: rgba(0, 0, 0, 0.35);
+}
+code > a {
+  margin: 0 -4px;
+}
+
+.label {
+  position: absolute;
+  bottom: calc(100% - 4px);
+  padding: 0 4px;
+  border-radius: 4px;
+  background: inherit;
+}
+
+.token--line, .token--set {
+  display: block;
+}
+.token--set {
+  padding-left: 2ch;
+}
+.token--cond {
+  color: #fdfdfd;
+  text-shadow: 0 0 2px #001716, 0 0 3px #03edf975, 0 0 5px #03edf975, 0 0 8px #03edf975;
+}
+.token--attr {
+  color: #f4eee4;
+  text-shadow: 0 0 2px #393a33, 0 0 8px #f39f0575, 0 0 2px #f39f0575;
+}
+.token--str {
+  color: #fa7b73;
+}
+.token--prop {
+  color: #fff5f6;
+  text-shadow: 0 0 2px #000, 0 0 10px #fc1f2c75, 0 0 5px #fc1f2c75, 0 0 25px #fc1f2c75;
+}
+.token--keyw {
+  color: #f92aad;
+  text-shadow: 0 0 2px #100c0f, 0 0 5px #dc078e33, 0 0 10px #fff3;
+}
+.token--rcls, .token--pcls {
+  color: #ff8b39;
+}
+
+footer {
+  font-size: 1rem;
+  text-align: center;
+}
